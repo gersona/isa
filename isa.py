@@ -6,6 +6,7 @@ import sys
 class NumberGroup():
     INDEX = None
     NAMES = []
+    AND = "sy"
 
     def __init__(self, value: int):
         if self.INDEX is None:
@@ -21,7 +22,7 @@ class NumberGroup():
         result = ""
         if self.current_result:
             if past_result:
-                result = past_result + " sy "
+                result = past_result + " " + self.AND + " "
             result += self.current_result
         return result
 
@@ -46,6 +47,7 @@ class Tens(NumberGroup):
         '', 'folo', 'roapolo', 'telopolo', 'efapolo', 'dimampolo', 'enimpolo',
         'fitopolo', 'valopolo', 'sivifolo'
     ]
+    AND = "amby"
     
     def render(self, past_result: str = "") -> str:
         if past_result and self.value == 1:  # teens: [11 -19]
@@ -59,6 +61,10 @@ class Hundreds(NumberGroup):
         '', 'zato', 'roanjato', 'telonjato', 'efajato', 'dimanjato',
         'eninjato', 'fitonjato', 'valonjato', 'sivinjato'
     )
+    def __init__(self, value: int):
+        super().__init__(value)
+        if value == 1:
+            self.AND = "amby"
 
 
 class NumberGroupFactory(object):
