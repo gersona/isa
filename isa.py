@@ -67,9 +67,21 @@ class Hundreds(NumberGroup):
             self.AND = "amby"
 
 
+class Thousands(NumberGroup):
+    INDEX = 3
+    
+    def __init__(self, value: int):
+        self.NAMES = [
+            unit + " arivo" for unit in Ones.NAMES
+        ]
+        self.NAMES[0] = ""
+        self.NAMES[1] = "arivo"
+        super().__init__(value)
+
+
 class NumberGroupFactory(object):
     ALL_CLASSES = (
-        Ones, Tens, Hundreds
+        Ones, Tens, Hundreds, Thousands
     )
 
     def __new__(cls, index):
@@ -90,11 +102,12 @@ class NumberRenderer(object):
         if self.value == 0:
             return "aotra"
 
+        # malagasy number are read backwards
         _list = reversed([e for e in str(number)])
         result = ""
         for index, num in enumerate(_list):
             result = NumberGroupFactory(index)(int(num)).render(result)
-        return result
+        return result.capitalize()
 
 if __name__ == '__main__':
     # python3 isa 890
